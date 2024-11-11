@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/conta.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-dark-custom">
+    <nav class="navbar fixed-top navbar-expand-lg custom-navbar p-4">
+        <div class="container-fluid">
+            <a class="navbar-brand ms-5 me-5 text-color-custom" href="#">IARA GAMES</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link ms-5 text-light" href="index.html">GAMES</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ms-5 text-light" href="#">SOBRE NÓS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ms-5 me-5 text-light" aria-current="page" href="login.html">LOGIN</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <form id="formLogin" method="POST" class="formLogin">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Insira seu email" required />
+        
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" placeholder="Insira sua senha" required />
+        
+        <a href="#" class="forgot-password">Redefinir senha</a>
+    
+        <div class="checkbox-group">
+            <input type="checkbox" id="keep-connected">
+            <label for="keep-connected">Manter conectado</label>
+        </div>
+        
+        <input type="submit" value="ENTRAR" class="btn-custom" />
+        <a href="conta.html" class="btn-custom">CRIAR CONTA</a>
+    </form>
+    
+    <script>
+        document.getElementById('formLogin').addEventListener('submit', async (event) => {
+            event.preventDefault();
+    
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+            
+            await loginUsuario(email, senha);
+        });
+        
+        // Função para autenticar o usuário
+        const loginUsuario = async (email, senha) => {
+            try {
+                const response = await fetch('http://localhost:5500/api/login', { // Ajuste a URL conforme sua API
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, senha })
+                });
+    
+                if (response.ok) {
+                    // Redirecionar para a página inicial após login bem-sucedido
+                    window.location.href = 'index.html';
+                } else {
+                    alert('Login falhou! Verifique suas credenciais.');
+                }
+            } catch (error) {
+                console.error('Erro de conexão:', error);
+            }
+        };
+    </script>
+    
+</body>
+
+</html>
